@@ -10,8 +10,8 @@ export default function DarkModeSwitch() {
 
   useEffect(() => {
     if (localStorage.getItem("theme") === "dark") {
-      setDark(true);
       document.documentElement.classList.add("dark");
+      setDark(true);
     }
   }, []);
 
@@ -31,7 +31,6 @@ export default function DarkModeSwitch() {
     <Tooltip title={dark ? "Switch to Light Mode" : "Switch to Dark Mode"}>
       <IconButton
         onClick={toggleDarkMode}
-        color="inherit"
         sx={{
           backgroundColor: dark ? "#1e1e1e" : "#f5f5f5",
           color: dark ? "#fff" : "#000",

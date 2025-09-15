@@ -7,9 +7,10 @@ const audiowide = Audiowide({
   weight: "400",
   display: "swap",
 });
+
 export const metadata = {
   title: "SoundPlay",
-  description: "Music site with more than a few thousand music variations",
+  description: "Music site with thousands of music variations",
   icons: {
     icon: "/favicon.ico",
   },

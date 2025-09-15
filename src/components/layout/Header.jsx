@@ -4,6 +4,7 @@ import { FaHome, FaMusic, FaInfoCircle, FaBars, FaTimes } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import DarkModeSwitch from "../ui/DarkModeSwitch";
+import HowToRegTwoToneIcon from "@mui/icons-material/HowToRegTwoTone";
 
 const headerItems = [
   { name: "Home", icon: <FaHome className="w-5 h-5" />, href: "/" },
@@ -15,10 +16,10 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="w-full bg-white dark:bg-black border-b-2 border-orange-500 dark:border-orange-400 px-4 py-2 flex flex-col md:flex-row md:items-center md:justify-between">
-      {/* Logo */}
-      <div className="flex items-center justify-between md:justify-start gap-2">
-        <div className="flex items-center gap-2 select-none">
+    <header className="w-full dark:bg-black border-b-2 border-orange-500 dark:border-orange-400 px-4 py-3">
+      <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        {/* 1️⃣ Logo */}
+        <div className="flex items-center gap-2 justify-center md:justify-start">
           <span className="text-2xl font-bold tracking-tight text-black dark:text-white">
             Beat
             <span className="text-orange-500 dark:text-orange-400 ml-1">
@@ -27,59 +28,49 @@ export default function Header() {
           </span>
           <Image
             src="/images/logo.png"
-            width={60}
-            height={60}
+            width={50}
+            height={50}
             alt="BeatFlow Logo"
-            className="object-cover -mt-2"
+            className="object-cover"
             priority
           />
         </div>
 
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden ml-4 text-black dark:text-white"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? (
-            <FaTimes className="w-6 h-6" />
-          ) : (
-            <FaBars className="w-6 h-6" />
-          )}
-        </button>
-      </div>
+        {/* 2️⃣ Nav */}
+        <nav className="flex flex-wrap justify-center md:flex-row md:gap-6 gap-3">
+          {headerItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="flex items-center gap-2 text-lg text-black dark:text-white 
+                     hover:text-orange-500 dark:hover:text-orange-400 
+                     transition-colors duration-300"
+            >
+              {item.icon}
+              <span>{item.name}</span>
+            </Link>
+          ))}
+        </nav>
 
-      {/* Nav links */}
-      <nav
-        className={`flex-col md:flex md:flex-row gap-6 md:items-center transition-all duration-300 ${
-          mobileMenuOpen ? "flex mt-4 md:mt-0" : "hidden md:flex"
-        }`}
-      >
-        {headerItems.map((item) => (
+        {/* 3️⃣ Actions */}
+        <div className="flex items-center justify-center md:justify-end gap-4">
+          <DarkModeSwitch />
           <Link
-            key={item.name}
-            href={item.href}
-            className="flex items-center gap-2 text-black dark:text-white 
-                       hover:text-orange-500 dark:hover:text-orange-400 
-                       transition-colors duration-300"
-            onClick={() => setMobileMenuOpen(false)}
+            href="/signin"
+            className="relative font-bold text-[12px] border border-orange-600 p-2 rounded-3xl 
+             overflow-hidden flex items-center justify-center gap-2 group hover:border-green-700 hover:bg-green-500"
           >
-            {item.icon}
-            <span>{item.name}</span>
-          </Link>
-        ))}
-      </nav>
+            {/* متن */}
+            <span className="text-orange-500 transition-opacity duration-100 group-hover:opacity-0">
+              register
+            </span>
 
-      {/* Actions */}
-      <div className="flex items-center gap-4 mt-4 md:mt-0">
-        <DarkModeSwitch />
-        <Link
-          href="/signin"
-          className="font-bold bg-blue-500 text-white px-6 py-1.5 rounded-md 
-                     hover:bg-blue-600 transition-colors duration-300
-                     dark:bg-blue-600 dark:hover:bg-blue-700"
-        >
-          Sign In
-        </Link>
+            {/* آیکون */}
+            <span className="absolute  text-white left-[25px] -translate-x-1/2 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:-translate-x-0">
+              <HowToRegTwoToneIcon />
+            </span>
+          </Link>
+        </div>
       </div>
     </header>
   );
