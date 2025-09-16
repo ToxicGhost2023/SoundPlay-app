@@ -1,10 +1,15 @@
+import CardLanding from "@/components/template/landing/CardLanding";
+import PosterLandgin from "@/components/template/landing/Poster.landgin";
 import DarkModeSwitch from "@/components/ui/DarkModeSwitch";
 
 export default function Home() {
   return (
-    <main className="h-screen flex flex-col items-center justify-center bg-white dark:bg-black text-black dark:text-white">
-      <h1 className="text-3xl mb-4">Dark Mode Example</h1>
-      <DarkModeSwitch />
+    <main className=" dark:bg-black text-black dark:text-white">
+      {/* دکمه دارک مود */}
+      <div className="absolute top-4 right-4 z-20"></div>
+
+      <PosterLandgin />
+      <CardLanding />
     </main>
   );
 }
