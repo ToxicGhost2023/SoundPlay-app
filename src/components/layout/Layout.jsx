@@ -1,15 +1,14 @@
-// import { cookies } from "next/headers";
-
 import React from "react";
 import Header from "./Header";
+import ScrollLayout from "../ui/ScrollLayout";
 
-function Layout({ children }) {
+export default function Layout({ children }) {
   return (
-    <main className="scroll-smooth">
+    <>
+      {/* <ScrollLayout> */}
       <Header />
       {children}
-    </main>
+      {/* </ScrollLayout> */}
+    </>
   );
 }
-
-export default Layout;

@@ -1,11 +1,21 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+
 import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  EffectCoverflow,
+} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Navigation, Pagination } from "swiper";
+import "swiper/css/scrollbar";
+import "swiper/css/effect-coverflow";
+
+import { motion } from "framer-motion";
 
 function CardLanding() {
   const [songs, setSongs] = useState([]);
@@ -24,45 +34,75 @@ function CardLanding() {
       });
   }, []);
 
-  if (loading) return <p className="text-center mt-10">Loading...</p>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center  bg-black text-white">
+        <p className="animate-pulse text-lg">Loading Featured Tracks...</p>
+      </div>
+    );
+
+  const randomTilt = () => Math.random() * 6 - 3;
 
   return (
-    <div className="max-w-6xl mx-auto py-10 px-4">
-      <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">
-        Featured Tracks
+    <div className="max-w-3xl mx-auto py-10 px-4">
+      <h2 className="text-3xl md:text-4xl font-extrabold mb-10 text-center  bg-clip-text text-transparent  bg-gradient-to-r from-red-800 via-orange-500 to-orange-200 drop-shadow-lg">
+        🎧 Featured Tracks
       </h2>
 
       <Swiper
-        modules={[Navigation, Pagination]}
+        modules={[Navigation, Pagination, Scrollbar, EffectCoverflow]}
+        effect="coverflow"
+        coverflowEffect={{
+          rotate: 30,
+          stretch: 20,
+          depth: 150,
+          modifier: 1,
+          slideShadows: true,
+        }}
         spaceBetween={20}
-        slidesPerView={1}
+        slidesPerView={5}
         navigation
         pagination={{ clickable: true }}
+        scrollbar={{ draggable: true }}
         breakpoints={{
           640: { slidesPerView: 2 },
           768: { slidesPerView: 3 },
           1024: { slidesPerView: 4 },
         }}
-        className="cursor-grab"
+        grabCursor={true}
+        className="py-8"
       >
-        {songs.map((song) => (
+        {songs.map((song, index) => (
           <SwiperSlide key={song.trackId}>
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:scale-105 transition-transform duration-300">
+            <motion.div
+              className=" relative group rounded-2xl overflow-hidden shadow-xl  dark:bg-gray-800 cursor-pointer "
+              initial={{ opacity: 0, y: 50, rotate: randomTilt() }}
+              animate={{ opacity: 1, y: 0, rotate: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.08 }}
+              whileHover={{ scale: 1.05 }}
+            >
+              {/* کاور */}
               <img
-                src={song.artworkUrl100.replace("100x100", "300x300")}
+                src={song.artworkUrl100.replace("100x100bb", "400x400bb")}
                 alt={song.trackName}
-                className="w-full h-60 object-cover"
+                className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110"
               />
-              <div className="p-4">
-                <h3 className="font-semibold text-lg">{song.trackName}</h3>
-                <p className="text-gray-500 text-sm">{song.artistName}</p>
-                <p className="mt-2 font-bold">
-                  {song.trackPrice
-                    ? `${song.trackPrice} ${song.currency}`
-                    : "Free"}
+
+              {/* Overlay پخش */}
+              <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <button className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-full shadow-lg">
+                  ▶ Play Preview
+                </button>
+              </div>
+
+              {/* متن پایین */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-transparent to-transparent p-3 text-white">
+                <h3 className="font-bold text-sm truncate">{song.trackName}</h3>
+                <p className="text-xs text-gray-300 truncate">
+                  {song.artistName}
                 </p>
               </div>
-            </div>
+            </motion.div>
           </SwiperSlide>
         ))}
       </Swiper>
